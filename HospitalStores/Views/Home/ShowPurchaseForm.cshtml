@@ -1,0 +1,344 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+     
+}
+@model Store_Bl.Models.PurchaseOrderForm
+
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="text-center flex-grow-1">طلب شراء مواد</h1>
+        </div>
+        <div class="border border-2 p-4">
+            <form asp-action="SubmitPurchaseRequest" method="post">
+                <div class="row mb-4" style="justify-content:space-between">
+                    <div class="col-sm-4">
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="storeName" class="form-label">السيد أمين مستودع:</label>
+                            <input type="text" class="form-control me-3"  value="@ViewBag.store.StoreName" readonly>
+                        </div>
+                        <br /><br /><br /> <br /> <br />
+
+                        <p>يرجى الموافقة على شراء المواد التالية:</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="mb-3 " style="display:flex; flex-direction:row">
+                            <label for="folderNumber" class="form-label">رقم المجلد:</label>
+                            <input type="number" class="form-control w-auto me-3" asp-for="Folder" placeholder="رقم المجلد" id="folder" required>
+                        </div>
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="serialNumber" class="form-label">رقم التسلسل:</label>
+                            <input type="number" class="form-control w-auto  me-3" asp-for="Serial" placeholder="رقم التسلسل" id="serial" required>
+                        </div>
+                        <div class=" mb-3" style="display:flex; flex-direction:row">
+                            <label for="date">التاريخ:</label>
+                            <input type="date" class="form-control w-auto me-3" id="date" asp-for="CreatedAt">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered table-striped " id="itemsTable">
+                        <thead class="table-header">
+                            <tr>
+                                <th rowspan="2">المتسلسل</th>
+                                <th colspan="4" style="text-align:center">المادة</th>
+                                <th rowspan="2">رصيد المستودع</th>
+                                <th rowspan="2">الحد الأدنى</th>
+                                <th rowspan="2">الحد الأعلى</th>
+                                <th rowspan="2">سبب الشراء</th>
+                                <th rowspan="2">الكمية المراد شراؤها</th>
+                                <th rowspan="2">السعر التقديري</th>
+                                <th rowspan="2">القيمة الإجمالية</th>
+                                <th rowspan="2">ملاحظات</th>
+                            </tr>
+                            <tr>
+                                <th>رمزها</th>
+                                <th>اسمها</th>
+                                <th>أوصافها</th>
+                                <th>وحدتها</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < 12; i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].SerialNumber"></td>
+                                    <td><textarea class="form-control text-center auto-expand name-field" asp-for="@Model.ItemsPurchased[i].Name"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].Description"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].Unit"></textarea></td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].NumberOfItems"></td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].Min"></td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].Max"></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].ReasonOfPurchase"></textarea></td>
+                                    <td><input type="number" class="form-control auto-expand text-center qty" asp-for="@Model.ItemsPurchased[i].QuantityToPurchase"></td>
+                                    <td><input type="number" class="form-control auto-expand text-center price" asp-for="@Model.ItemsPurchased[i].ExpectedPrice"></td>
+                                    <td><input type="number" class="form-control auto-expand text-center total" asp-for="@Model.ItemsPurchased[i].TotalPrice"></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsPurchased[i].Notes"></textarea></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <style>
+                    .table-header th {
+                        background-color: #add8e6; /* Light blue background */
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    .table tbody td, .table tbody textarea {
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    .auto-expand {
+                        width: 100%;
+                        min-height: 30px;
+                        resize: none;
+                        overflow: hidden;
+                        border: none;
+                        background-color: transparent;
+                        padding: 5px;
+                        box-sizing: border-box;
+                        height: auto;
+                        text-align: center; /* Center text inside textarea */
+                    }
+
+                    table td:nth-child(2) {
+                        width: 8%; /* Set your desired width */
+                    } 
+                    table td:nth-child(5) {
+                        width: 8%; /* Set your desired width */
+                    }
+                    table td:nth-child(3) {
+                        width: 12% ; /* Set your desired width */
+                    }
+
+                    textarea {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 6px;
+                        overflow-wrap: break-word;
+                        word-wrap: break-word;
+                    }
+
+                    .auto-resize {
+                        height: auto;
+                        overflow-y: hidden; /* Prevent scrollbars */
+                        resize: none; /* Prevent manual resizing */
+                        box-sizing: border-box; /* Include padding in height calculation */
+                    }
+                        textarea:focus {
+                            outline: none;
+                            border: 1px solid #007bff;
+                        }
+
+                        textarea.auto-expand:focus {
+                            height: auto;
+                        }
+                </style>
+
+               
+                <style>
+                    .autocomplete - results div {
+                        cursor: pointer;
+                        padding: 5px;
+                    }
+
+                        .autocomplete - results div:hover {
+                            background - color: #f0f0f0;
+                        }
+                </style>
+                <div class="col-sm-6 mb-4" style="display:flex; flex-direction:row">
+                    <label class="form-label ">جرى تقدير الأسعار بمعرفتنا في:</label>
+                    <input type="date" class="form-control w-auto me-3">
+                </div>
+
+                <div class="col-sm-8 mb-4" style="display:flex; flex-direction:row">
+                    <label for="purchaseApprovalDate" class="form-label col-sm-6"> نوافق على عقد النفقة المبينة أعلاه وشراؤها حسب الأصول في تاريخ:</label>
+                    <input type="date" class="form-control w-auto me-3">
+                </div>
+
+                <div class="row mb-4" style="display:flex; flex-direction:row">
+                    <div class="col">
+                        <label for="orderedFrom" class="form-label">الجهة الطالبة:</label>
+                        <input type="text" class="form-control w-auto me-3" value="@ViewBag.store.StoreName" readonly>
+                    </div>
+                    <div class="col">
+                        <label for="accountant" class="form-label">محاسب الإدارة:</label>
+                        <input type="text" class="form-control w-auto me-3">
+                    </div>
+                    <div class="col">
+                        <label for="manager" class="form-label">آمر الصرف الأسم:</label>
+                        <input type="text" class="form-control w-auto me-3">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">حفظ طلب الشراء</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="alertContainer" data-message="@TempData["AlertMessage"]"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the message in the data attribute
+            const message = document.getElementById("alertContainer").getAttribute("data-message");
+            if (message) {
+                alert(message);  // Ensures UTF-8 encoding
+            }
+        });
+    </script>
+
+   
+    <!-- Bootstrap JS -->
+    <script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        document.querySelectorAll('textarea.auto-expand').forEach(function (textarea) {
+            textarea.addEventListener('input', function () {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Attach event listener to price and quantity inputs in the table
+            $('#itemsTable').on('input', '.price, .qty', function () {
+                // Find the row where the input resides
+                let row = $(this).closest('tr');
+
+                // Get the values of price and quantity in the current row
+                let price = parseFloat(row.find('.price').val()) || 0;
+                let qty = parseFloat(row.find('.qty').val()) || 0;
+
+                // Calculate the total
+                let total = price * qty;
+
+                // Set the total in the current row
+                row.find('.total').val(total);
+            });
+        });
+    </script>
+
+
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#folder, #serial').on('input', function () {
+                let folder = $('#folder').val();
+                let serial = $('#serial').val();
+
+                if (folder && serial) {
+                    $.ajax({
+                        url: '@Url.Action("CheckDuplicatePurchase", "Home")',
+                        type: 'GET',
+                        data: { folder: folder, serial: serial },
+                        success: function (response) {
+                            if (response.isDuplicate) {
+                                alert("هذا الرقم التسلسلي موجود بالفعل في قاعدة البيانات.");
+                                $('#folder, #serial').val(''); // Optionally clear the input fields
+                            }
+                        },
+                        error: function () {
+                            alert("حدث خطأ أثناء التحقق.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.name-field').on('input', function () {
+                let inputField = $(this);
+                let searchTerm = inputField.val();
+                let storeId = @ViewBag.store.Id;
+
+                $('.autocomplete-results').remove();
+
+                if (searchTerm.length >= 2) { // Trigger search after 2 characters
+                    $.ajax({
+                        url: '@Url.Action("SearchItemsForPurchase", "Home")', // Adjust the controller name
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { term: searchTerm, StoreId: storeId },
+                        success: function (data) {
+                            // Remove any existing dropdown if search term is empty
+                            $('.autocomplete-results').remove();
+                            if (data.length === 0) {
+                                return; // No results, so exit
+                            }
+
+                            
+                            let offset = inputField.offset();
+                            let dropdown = $('<div class="autocomplete-results"></div>').css({
+                                position: 'absolute',
+                                top: offset.top + inputField.outerHeight(),
+                                left: offset.left,
+                                border: '1px solid #ccc',
+                                backgroundColor: '#fff',
+                                zIndex: 1000,
+                                width: inputField.outerWidth()
+                            }).appendTo('body'); // Append to body to avoid overlap issues
+
+                            // Clear previous results
+                            dropdown.empty();
+                            $.each(data, function (index, item) {
+                                
+                                $('<div></div>')
+                                    .text(item.itemName) // Ensure you use the correct case (lowercase `name`)
+                                    .css('padding', '5px')
+                                    .on('click', function () {
+                                        // Fill in data when an item is clicked
+                                        let row = inputField.closest('tr');
+                                        inputField.val(item.itemName); // Set the Name field
+                                        // Use attribute selectors based on your input field structure
+                                        row.find('input[name$=".SerialNumber"]').val(item.itemCardNumber);
+                                        row.find('textarea[name$=".Unit"]').val(item.unit);
+                                        row.find('input[name$=".NumberOfItems"]').val(item.finalBalance);
+
+                                        // Set the value for the itemName field and add the 'auto-resize' class
+                                        row.find('textarea[name$=".Name"]')
+
+                                            .addClass('auto-resize')       // Add the auto-resize class for styling
+                                            .each(function () {
+                                                // Adjust the input height based on the content
+                                                this.style.height = 'auto'; // Reset to auto to allow shrinking/growing
+                                                this.style.height = (this.scrollHeight) + 'px'; // Adjust to fit content height
+                                            });
+
+                                        dropdown.remove(); // Remove dropdown after selection
+                                    })
+                                    .appendTo(dropdown);
+                            });
+                            $(document).on('click', function (e) {
+                                if (!$(e.target).closest('.name-field, .autocomplete-results').length) {
+                                    dropdown.remove();
+                                }
+                            });
+                        },
+                        error: function () {
+                            alert("Error occurred while searching for items.");
+                        }
+                    });
+
+                }
+            });
+        });
+
+    </script>
+

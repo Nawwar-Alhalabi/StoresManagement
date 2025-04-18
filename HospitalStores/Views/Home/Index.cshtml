@@ -1,0 +1,213 @@
+﻿@{
+
+}
+@model Store_Bl.Models.User
+
+<!-- Sale & Revenue Start -->
+@if (@Model.Role != Store_Bl.Models.User.enRoles.observer && @Model.Role != Store_Bl.Models.User.enRoles.Manager)
+{
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="me-3">
+                        @if (@Model.Role == Store_Bl.Models.User.enRoles.Officer)
+                        {
+                            <p class="mb-2">عدد طلبات الشراء المعلقة</p>
+                            <h6 class="mb-0">@ViewBag.PendingpurchaseCount</h6>
+                        }
+                        @if (@Model.Role == Store_Bl.Models.User.enRoles.MedicalEmployee)
+                        {
+                            <p class="mb-2">عدد طلبات تسليم المواد المعلقة</p>
+                            <h6 class="mb-0">@ViewBag.pendingOrderCount</h6>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                    <div class="me-3">
+                        @if (@Model.Role == Store_Bl.Models.User.enRoles.Officer)
+                        {
+                            <p class="mb-2">عدد طلبات تسليم المواد المعلقة</p>
+                            <h6 class="mb-0">@ViewBag.PendingDepartmentCount</h6>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-area fa-3x text-primary"></i>
+                    <div class="me-3">
+                        @if (@Model.Role == Store_Bl.Models.User.enRoles.Officer)
+                        {
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#runOutItemsModal">
+                                <p class="mb-2">المواد الغير موجودة في المستودع</p>
+                                <!-- Button to trigger modal -->
+                                <h6 class="mb-0">
+                                    @ViewBag.runOutItems.Count <span>عنصر</span>
+                                </h6>
+                            </a>
+
+                            <!-- Modal Structure -->
+                            <div class="modal fade" dir="rtl" id="runOutItemsModal" tabindex="-1" aria-labelledby="runOutItemsModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul>
+                                                @foreach (var item in ViewBag.runOutItems)
+                                                {
+                                                    <li>رقم بطاقة المواد: @item.ItemCardNumber   ---   اسم المادة: @item.ItemName   ---   رصيد المستودع: @item.FinalBalance</li>
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+<!-- Sale & Revenue End -->
+<!-- Sales Chart Start -->
+@if (@Model.Role == Store_Bl.Models.User.enRoles.Officer)
+{
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-8">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">إحصائيات مذكرات الاستلام والتسليم</h6>
+                    </div>
+                    <canvas id="worldwide-sales"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+@if (@Model.Role == Store_Bl.Models.User.enRoles.MedicalEmployee)
+{
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-8">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">إحصائيات الطلبات المقدمة من القسم</h6>
+                    </div>
+                    <canvas id="worldwide-sales"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<!-- JavaScript Libraries -->
+<script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+<script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/chart/chart.min.js"></script>
+<script src="~/lib/easing/easing.min.js"></script>
+<script src="~/lib/waypoints/waypoints.min.js"></script>
+<script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="~/lib/tempusdominus/js/moment.min.js"></script>
+<script src="~/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="~/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="~/js/main.js"></script>
+@if (Model.Role == Store_Bl.Models.User.enRoles.Officer)
+{
+    <script>
+        $(document).ready(function () {
+            const storeId = @Model.StoreId;
+            $.ajax({
+                url: `/Chart/GetOfficerData?StoreId=${storeId}`,
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var ctx = document.getElementById('worldwide-sales').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: data.labels,
+
+                            datasets: [
+                                {
+                                    label: "مذكرات التسليم",
+                                    data: data.deliveryData,
+                                    backgroundColor: "rgba(0, 156, 255, .7)"
+                                },
+                                {
+                                    label: "مذكرات الاستلام",
+                                    data: data.receiptData,
+                                    backgroundColor: "rgba(0, 156, 255, .5)"
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                    myChart.update();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching chart data:", error);
+                }
+            });
+        });
+    </script>
+}
+
+@if (Model.Role == Store_Bl.Models.User.enRoles.MedicalEmployee)
+{
+    <script>
+        $(document).ready(function () {
+            const MedId = @Model.Medical_DepId;
+            $.ajax({
+                url: `/Chart/GetMedicalData?medId=${MedId}`,
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var ctx = document.getElementById('worldwide-sales').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: data.labels,
+
+                            datasets: [
+                                {
+                                    label: "مذكرات التسليم",
+                                    data: data.deliveryData,
+                                    backgroundColor: "rgba(0, 156, 255, .7)"
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                    myChart.update();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching chart data:", error);
+                }
+            });
+        });
+    </script>
+}

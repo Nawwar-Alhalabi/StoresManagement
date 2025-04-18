@@ -1,0 +1,14 @@
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\bin\Debug\net8.0\Store_Bl.deps.json
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\bin\Debug\net8.0\Store_Bl.runtimeconfig.json
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\bin\Debug\net8.0\Store_Bl.dll
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\bin\Debug\net8.0\Store_Bl.pdb
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.csproj.AssemblyReference.cache
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.AssemblyInfoInputs.cache
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.AssemblyInfo.cs
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.csproj.CoreCompileInputs.cache
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.dll
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\refint\Store_Bl.dll
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.pdb
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.genruntimeconfig.cache
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\ref\Store_Bl.dll

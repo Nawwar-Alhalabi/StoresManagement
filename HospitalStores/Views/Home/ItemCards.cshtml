@@ -1,0 +1,246 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var itemCardDetails = ViewBag.itemCardDetails as List<Store_Bl.Models.ReportViewModel>;
+}
+
+
+
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="text-center flex-grow-1">نموذج مستودع</h1>
+    </div>
+    <div class="border border-2 p-4">
+
+        <form asp-action="SearchItemCardByName" method="post">
+            <div class="row mb-4" style="justify-content:space-between">
+                <div class="col-sm-4">
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="storeName" class="form-label">اسم المادة: </label>
+                        <textarea class="form-control auto-expand text-center name-field" placeholder=" الرجاء ادخال اسم المادة لعرض تقرير عنها" name="itemName"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success"> بحث</button>
+                    <br /><br /><br /> <br /> <br />
+
+                </div>
+
+
+                <div class="col-sm-4">
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="ItemName" class="form-label">اسم المادة</label>
+                        @if (itemCardDetails != null && itemCardDetails.Count() > 0)
+                        {
+                            <input type="text" class="form-control" asp-for="@itemCardDetails[0].Name" readonly>
+                        }
+
+                    </div>
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="Min" class="form-label">الحد الادنى</label>
+                        @if (itemCardDetails != null && itemCardDetails.Count() > 0)
+                        {
+                            <input type="text" class="form-control" asp-for="@itemCardDetails[0].Min">
+                        }
+                    </div>
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="Max" class="form-label">الحد الاقصى</label>
+                        @if (itemCardDetails != null && itemCardDetails.Count() > 0)
+                        {
+                            <input type="text" class="form-control" asp-for="@itemCardDetails[0].Max">
+                        }
+                    </div>
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="Unit" class="form-label">الوحدة</label>
+                        @if (itemCardDetails != null && itemCardDetails.Count() > 0)
+                        {
+                            <input type="text" class="form-control" asp-for="@itemCardDetails[0].Unit">
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-striped w-100" style="table-layout: fixed;">
+                <thead class="table-header">
+                    <tr>
+                        <th rowspan="2">المتسلسل</th>
+                        <th colspan="3" style="text-align:center">المستند</th>
+                        <th colspan="2">الحركة</th>
+                        <th rowspan="2">تاريخ الاستلام والتسليم</th>
+                        <th rowspan="2">الجهة المسلمة او المستلمة</th>
+                        <th rowspan="2">ملاحظات</th>
+                    </tr>
+                    <tr>
+                        <th>نوعه</th>
+                        <th>رقمه</th>
+                        <th>تاريخه</th>
+                        <th>الادخال/الاخراج</th>
+                        <th>الرصيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 0;
+                        if (itemCardDetails != null && itemCardDetails.Count() > 0)
+                        {
+                            @foreach (var item in itemCardDetails)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.Type"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.NumberOfDoucument"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.CreatedAt"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.ItemsTransfered"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.FinalBalance"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.DateOfDeliver"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.DeliveredTo"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@item.Notes"></textarea></td>
+                                </tr>
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        <style>
+            .table-header th {
+                background-color: #add8e6; /* Light blue background */
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .table tbody td, .table tbody textarea {
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .auto-expand {
+                width: 100%;
+                min-height: 30px;
+                resize: none;
+                overflow: hidden;
+                border: none;
+                background-color: transparent;
+                padding: 5px;
+                box-sizing: border-box;
+                height: auto;
+                text-align: center; /* Center text inside textarea */
+            }
+
+            textarea {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 6px;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+            }
+
+                textarea:focus {
+                    outline: none;
+                    border: 1px solid #007bff;
+                }
+
+                textarea.auto-expand:focus {
+                    height: auto;
+                }
+        </style>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+<script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+<script>
+    document.querySelectorAll('textarea.auto-expand').forEach(function (textarea) {
+        textarea.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.name-field').on('input', function () {
+            let inputField = $(this);
+            let searchTerm = inputField.val();
+            let storeId = @ViewBag.store.Id;
+
+
+            // Remove any existing dropdown if search term is empty
+            $('.autocomplete-results').remove();
+
+            if (searchTerm.length >= 2) { // Trigger search after 2 characters
+                $.ajax({
+                    url: '@Url.Action("SearchItemsInStore", "Home")',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { term: searchTerm, StoreId: storeId },
+                    success: function (data) {
+
+                        // Remove any existing dropdown if search term is empty
+                        $('.autocomplete-results').remove();
+
+                        if (data.length === 0) {
+                            return; // No results, so exit
+                        }
+                        let offset = inputField.offset();
+                        let dropdown = $('<div class="autocomplete-results"></div>').css({
+                            position: 'absolute',
+                            top: offset.top + inputField.outerHeight(),
+                            left: offset.left,
+                            border: '1px solid #ccc',
+                            backgroundColor: '#fff',
+                            zIndex: 1000,
+                            width: inputField.outerWidth()
+                        }).appendTo('body'); // Append to body to avoid overlap issues
+
+                        // Clear previous results
+                        dropdown.empty();
+
+                        $.each(data, function (index, item) {
+
+                            $('<div></div>')
+                                .text(item.name) // Ensure you use the correct case (lowercase `name`)
+                                .css('padding', '5px')
+                                .on('click', function () {
+                                    // Fill in data when an item is clicked
+                                    let row = inputField.closest('tr');
+                                    inputField.val(item.name); // Set the Name field
+                                    // Use attribute selectors based on your input field structure
+                                    row.find('textarea[name$=".Name"]')
+                                        .addClass('auto-resize')       // Add the auto-resize class for styling
+                                        .each(function () {
+                                            // Adjust the input height based on the content
+                                            this.style.height = 'auto'; // Reset to auto to allow shrinking/growing
+                                            this.style.height = (this.scrollHeight) + 'px'; // Adjust to fit content height
+                                        });
+                                    dropdown.remove(); // Remove dropdown after selection
+                                })
+                                .appendTo(dropdown);
+                        });
+
+                        $(document).on('click', function (e) {
+                            if (!$(e.target).closest('.name-field, .autocomplete-results').length) {
+                                dropdown.remove();
+                            }
+                        });
+
+                    },
+
+                    error: function () {
+                        alert("Error occurred while searching for items.");
+                    }
+                });
+
+            }
+        });
+    });
+
+
+</script>

@@ -1,0 +1,161 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var DepartmentList = ViewBag.DepartmentNames as List<Store_Bl.Models.MedicalDepartment>;
+}
+<br />
+<br />
+<br />
+<form id="searchForm" class="container col-md-8 p-4 bg-light rounded shadow">
+    <div class="row mb-4">
+        <!-- Department Dropdown -->
+        <div class="col-md-6">
+            <label for="selectedDepartment" class="form-label fw-bold">اختر القسم الطبي</label>
+            <select id="selectedDepartment" name="selectedDepartment" class="form-control" required>
+                <option value="">-- اختر القسم الطبي --</option>
+                @if (DepartmentList != null)
+                {
+                    foreach (var item in DepartmentList)
+                    {
+                        <option value="@item.Dep_Name">@item.Dep_Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <!-- Item Name Dropdown -->
+        <div class="col-md-6">
+            <label for="itemName" class="form-label fw-bold">اختر اسم المادة</label>
+            <select id="itemName" class="form-control" name="itemName" required>
+                <option value="">-- اختر اسم المادة --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <!-- Search Button -->
+        <div class="col-md-6">
+            <button type="button" class="btn btn-success w-100" id="searchButton">بحث</button>
+        </div>
+    </div>
+</form>
+
+<!-- Chart Section -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">البيانات</h5>
+                    <canvas id="departmentChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+<script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/chart/chart.min.js"></script>
+<script src="~/lib/easing/easing.min.js"></script>
+<script src="~/lib/waypoints/waypoints.min.js"></script>
+<script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="~/lib/tempusdominus/js/moment.min.js"></script>
+<script src="~/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="~/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="~/js/main.js"></script>
+<script>
+    document.getElementById('searchButton').addEventListener('click', function () {
+        const form = document.getElementById('searchForm');
+        const formData = new FormData(form);
+
+        fetch('@Url.Action("SearchDepartmentReports", "Home")', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                   
+                    updateChart(data.labels, data.deliveryData);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // Initialize the chart
+    const ctx = document.getElementById('departmentChart').getContext('2d');
+    let departmentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [], // Empty initially
+            datasets: [{
+                label: 'عدد العناصر المسلمة',
+                data: [], // Empty initially
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Update the chart dynamically
+    function updateChart(labels, data) {
+        departmentChart.data.labels = labels;
+        departmentChart.data.datasets[0].data = data;
+        departmentChart.update();
+    }
+</script>
+
+<script>
+    document.getElementById("selectedDepartment").addEventListener("change", function () {
+        const selectedDepartment = this.value;
+        const itemNameDropdown = document.getElementById("itemName");
+
+        // Clear the second dropdown
+        itemNameDropdown.innerHTML = '<option value="">-- اختر اسم المادة --</option>';
+
+        if (selectedDepartment) {
+            fetch('@Url.Action("SearchDeliveredItems", "Home")?selectedDepartment=' + encodeURIComponent(selectedDepartment), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && Array.isArray(data)) {
+                        data.forEach(item => {
+                            if (item.name) { // Check if "Name" exists before accessing it
+                                const option = document.createElement("option");
+                                option.value = item.name;
+                                option.textContent = item.name;
+                                itemNameDropdown.appendChild(option);
+                            } else {
+                                console.error("Missing 'Name' property in item:", item);
+                            }
+                        });
+                    } else {
+                        console.error("Invalid data format:", data);
+                    }
+                })
+                .catch(error => console.error('Error fetching items:', error));
+
+        }
+    });
+</script>
+

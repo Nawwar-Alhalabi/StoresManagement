@@ -1,0 +1,88 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var lstApprovedPurchaseOrders = ViewBag.ApprovedPurchaseOrders as List<Store_Bl.Models.PurchaseOrderForm>;
+    var ReceiptForms = ViewBag.ReceiptForms as List<Store_Bl.Models.ReceiptForm>;
+}
+
+
+@{
+    if (lstApprovedPurchaseOrders != null && lstApprovedPurchaseOrders.Any())
+    {
+        int i = 1;
+        @foreach (var item in lstApprovedPurchaseOrders)
+        {
+            string related = string.Concat(item.Folder, " - ", item.Serial);
+            if (ReceiptForms != null && !ReceiptForms.Any(e => e.RelatedPurchaseNumber == related && e.TypeOfForm != "مذكرة ادخال"))
+            {
+                <h4> رقم الطلب:  @item.Folder - @item.Serial</h4>
+                <br />
+                <h4> تاريخ الطلب:  @item.CreatedAt.ToString("dd/MM/yyyy")</h4>
+                <br />
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered table-striped w-100" style="table-layout: fixed;">
+                        <thead class="table-header">
+                            <tr>
+                                <th rowspan="2">المتسلسل</th>
+                                <th colspan="4" style="text-align:center">المادة</th>
+                                <th rowspan="2">رصيد المستودع</th>
+                                <th rowspan="2">الحد الأدنى</th>
+                                <th rowspan="2">الحد الأعلى</th>
+                                <th rowspan="2">سبب الشراء</th>
+                                <th rowspan="2">الكمية المراد شراؤها</th>
+                                <th rowspan="2">السعر التقديري</th>
+                                <th rowspan="2">القيمة الإجمالية</th>
+                                <th rowspan="2">ملاحظات</th>
+                            </tr>
+                            <tr>
+                                <th>رمزها</th>
+                                <th>اسمها</th>
+                                <th>أوصافها</th>
+                                <th>وحدتها</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var itm in item.ItemsPurchased)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@itm.SerialNumber</td>
+                                    <td>@itm.Name</td>
+                                    <td>@itm.Description</td>
+                                    <td>@itm.Unit</td>
+                                    <td>@itm.NumberOfItems</td>
+                                    <td>@itm.Min</td>
+                                    <td>@itm.Max</td>
+                                    <td>@itm.ReasonOfPurchase</td>
+                                    <td>@itm.QuantityToPurchase</td>
+                                    <td>@itm.ExpectedPrice</td>
+                                    <td>@itm.TotalPrice</td>
+                                    <td>@itm.Notes</td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="d-flex justify-content-end mb-3">
+
+                    <a href="/Home/AddReceiptForm?PurchaseId=@item.Id" class="btn btn-success me-3">إنشاء مذكرة استلام لهذا الطلب</a>
+
+                </div>
+
+                <br />
+                <br />
+            }
+        }
+    }
+    else
+    {
+        <h1 class="text-center">لا يوجد طلبات شراء مواد </h1>
+    }
+}
+
+

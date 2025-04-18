@@ -1,0 +1,94 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model Store_Bl.Models.User
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Assets/FontAwesome/css/style.css" />
+
+    <title>Login Page</title>
+
+    <style>
+        body {
+            background-color: #f7f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Ensures full height even on smaller screens */
+            margin: 0; /* Removes default margin */
+            text-align: center; /* Center-aligns content within the body */
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: auto; /* Centers container horizontally */
+            text-align: right; /* Align text to the right for RTL */
+        }
+
+            .login-container h2 {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+
+            .btn-custom:hover {
+                background-color: #0056b3;
+            }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>تسجيل الدخول</h2>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            </div>
+        }
+
+        <form asp-action="Login" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">اسم المستخدم</label>
+                <input type="text" class="form-control" id="username" name="Username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">كلمة المرور</label>
+                <input type="password" class="form-control" id="password" name="Password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-custom btn-block">تسجيل الدخول</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

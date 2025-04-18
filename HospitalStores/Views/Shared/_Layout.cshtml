@@ -1,0 +1,124 @@
+﻿
+@{
+    var user  = @ViewBag.user as Store_Bl.Models.User;
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StoreAdministration</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Assets/FontAwesome/css/style.css" />
+
+    <!-- Icon Font Stylesheet -->
+    <link href="~/Assets/FontAwesome/css/all.min.css" rel="stylesheet">
+    <link href="~/Assets/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+
+            <div class="container-xxl position-relative bg-white d-flex p-0">
+
+                <!-- Sidebar Start -->
+                <div class="sidebar pe-4 pb-3">
+                    <nav class="navbar bg-light navbar-light">
+                        <a href="#" class="navbar-brand mx-4 mb-3">
+                            <h3 class="text-primary">Stores</h3>
+                        </a>
+                        <div class="d-flex align-items-center ms-4 mb-4">
+
+                            <div class="ms-3">
+                                <h6 class="mb-0">@user?.UserName</h6>
+                                <span>@user?.Role.ToString()</span><br />
+                                @if (@user?.Role == Store_Bl.Models.User.enRoles.Officer)
+                                {
+                                    <span>@user.Store?.StoreName</span>
+                                }
+                                @if (@user?.Role == Store_Bl.Models.User.enRoles.MedicalEmployee)
+                                {
+                                    <span>@user.MedicalDepartment?.Dep_Name</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="navbar-nav w-100">
+                            <a href="~/Home/Index" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>الصفحة الرئيسية</a>
+
+                            @if (@user?.Role == Store_Bl.Models.User.enRoles.Officer)
+                            {
+                                <a href="/Home/ShowPurchaseForm" class="nav-item nav-link"><i class="fa fa-th me-2"></i>إنشاء طلب شراء مواد</a>
+                                <a href="/Home/ShowReceiptForm" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>إنشاء مذكرة استلام</a>
+                                <a href="/Home/ShowEntryForm" class="nav-item nav-link"><i class="fa-solid fa-briefcase me-2"></i>إنشاء مذكرة ادخال</a>
+                                <a href="/Home/ShowDeliveryForm" class="nav-item nav-link"><i class="fa-solid fa-table me-2"></i>إنشاء مذكرة تسليم</a>
+                                @*                 <a href="/Home/ShowApprovedPurchaseOrdersForOfficer?StoreId=@Model.StoreId" class="nav-item nav-link"><i class="fa-solid fa-cart-plus me-2"></i>عرض طلبات الشراء الموافق عليها</a>
+                            <a href="/Home/ShowApprovedDepartmentOrdersForOfficer?StoreId=@Model.StoreId" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>  عرض طلبات تسليم المواد الموافق عليها</a> *@
+                                <a href="/Home/ItemCards" class="nav-item nav-link"><i class="fa-solid fa-address-card me-2"></i>تقارير بطاقات المواد</a>
+                                <a href="/Home/ReceiptHistory" class="nav-item nav-link"><i class="fa-solid fa-receipt me-2"></i>سجل مذكرات الاستلام</a>
+                                <a href="/Home/DeliveryHistory" class="nav-item nav-link"><i class="fa-solid fa-reorder me-2"></i>سجل مذكرات التسليم</a>
+                                <a href="/Home/PurchaseHistory" class="nav-item nav-link"><i class="fa-solid fa-th me-2"></i>سجل طلبات الشراء</a>
+                                <a href="/Home/DepOrderHistory" class="nav-item nav-link"><i class="fa-solid fa-first-order me-2"></i>سجل طلبات المواد</a>
+                                <a href="/Home/LogOut" class="nav-item nav-link"><i class="fa-solid fa-sign-out me-2"></i>تسجيل الخروج</a>
+                            }
+                            @if (@user?.Role == Store_Bl.Models.User.enRoles.MedicalEmployee)
+                            {
+                                <a href="/Home/AddDepartmentOrder" class="nav-item nav-link"><i class="fa-solid fa-cart-plus me-2"></i>إنشاء طلب تسليم مواد</a>
+                                @* <a href="/Home/PendingOrdersForDepartment?MedId=@Model.Medical_DepId" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>عرض طلبات تسليم المواد المعلقة</a> *@
+                                <a href="/Home/LogOut" class="nav-item nav-link"><i class="fa-solid fa-sign-out me-2"></i>تسجيل الخروج</a>
+                            }
+                            @if (@user?.Role == Store_Bl.Models.User.enRoles.Manager)
+                            {
+                                <a href="/Home/ShowStoresReportsForManager" class="nav-item nav-link"><i class="fa-solid fa-sign-out me-2"></i>تقارير المستودعات</a>
+                                <a href="/Home/ShowDepartmentReportsForManager" class="nav-item nav-link"><i class="fa-solid fa-sign-out me-2"></i>تقارير الأقسام</a>
+                                @*                     <a href="/Home/PendingDepartmentOrders" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>عرض  طلبات تسليم المواد المعلقة</a>
+                            <a href="/Home/PendingPurchaseOrders" class="nav-item nav-link"><i class="fa-solid fa-cart-plus me-2"></i>عرض  طلبات شراء المواد المعلقة</a> *@
+                                <a href="/Home/LogOut" class="nav-item nav-link"><i class="fa-solid fa-sign-out me-2"></i>تسجيل الخروج</a>
+                            }
+                            @if (@user?.Role == Store_Bl.Models.User.enRoles.observer)
+                            {
+                                <a href="/Home/ShowStoresReportsForManager" class="nav-item nav-link"><i class="fa-solid fa-address-card me-2"></i>تقارير بطاقات المواد</a>
+                                @*              <a href="/Home/PendingPurchaseOrdersForAccountant" class="nav-item nav-link"><i class="fa-solid fa-cart-plus me-2"></i>عرض  طلبات شراء المواد المعلقة</a> *@
+                                <a href="/Home/LogOut" class="nav-item nav-link"><i class="fa-solid fa-sign-out me-2"></i>تسجيل الخروج</a>
+                            }
+
+                        </div>
+                    </nav>
+                </div>
+                <!-- Sidebar End -->
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                        </a>
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+
+
+                    </nav>
+                    <!-- Navbar End -->
+                    @RenderBody()
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

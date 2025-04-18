@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var lstPendingOrders = ViewBag.PendingOrders as List<Store_Bl.Models.DepartmentOrderForm>;
+}
+
+
+@{
+    if (lstPendingOrders != null && lstPendingOrders.Any())
+    {
+        int i = 1;
+        @foreach (var item in lstPendingOrders)
+        {
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped w-100" style="table-layout: fixed;">
+                    <thead class="table-header">
+                        <tr>
+                            <th rowspan="2">المتسلسل</th>
+                            <th colspan="4" class="text-center">المادة</th>
+                            <th rowspan="2">الكمية المطلوبة</th>
+                            <th rowspan="2">سبب الطلب</th>
+                            <th colspan="2">التسليم السابق</th>
+                            <th rowspan="2">الكمية الموافق على تسليمها</th>
+                            <th rowspan="2">ملاحظات</th>
+                        </tr>
+                        <tr>
+                            <th>رمزها</th>
+                            <th>اسمها</th>
+                            <th>أوصافها</th>
+                            <th>وحدتها</th>
+                            <th>الكمية</th>
+                            <th>التاريخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var itm in item.DepartmentOrderItems)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@itm.SerialNumber</td>
+                                <td>@itm.Name</td>
+                                <td>@itm.Description</td>
+                                <td>@itm.Unit</td>
+                                <td>@itm.QuantityRequired</td>
+                                <td>@itm.ReasonForOrder</td>
+                                <td>@itm.LastQuantityDelivered</td>
+                                <td>@itm.LastDateDelivered</td>
+                                <td>@itm.ApprovedQuantity</td>
+                                <td>@itm.Notes</td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <br />
+            <br />
+        }
+    }
+    else
+    {
+        <h1 class="text-center">لا يوجد طلبات معلقة</h1>
+    }
+}
+
+

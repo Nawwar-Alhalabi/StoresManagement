@@ -1,0 +1,337 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Store_Bl.Models.ReceiptForm
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مذكرة ادخال</title>
+    <!-- Bootstrap CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="text-center flex-grow-1">مذكرة ادخال</h1>
+        </div>
+        <div class="border border-2 p-4">
+            <form asp-action="SubmitEntryRequest" method="post">
+                <div class="row mb-4" style="justify-content:space-between">
+                    <div class="col-sm-4">
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="storeName" class="form-label">إن المواد المذكورة أدناه وردت من:</label>
+                            <input id="supp" type="text" class="form-control w-auto me-3" asp-for="SupplierName" required>
+                        </div>
+                        <br /><br /><br />
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="DocumentNumber" class="form-label">بموجب الوثيقة رقم:</label>
+                            <input type="number" class="form-control w-auto me-3" asp-for="DocumentNumber" required>
+                        </div>
+                        <br />
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="DocumentDate" class="form-label">تاريخ:</label>
+                            <input type="date" class="form-control w-auto me-3" asp-for="DocumentDate">
+                        </div>
+                        <br />
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="folderNumber" class="form-label">رقم المجلد:</label>
+                            <input type="number" class="form-control w-auto me-3" asp-for="Folder" placeholder="رقم المجلد" id="folder" required>
+                        </div>
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="serialNumber" class="form-label ">رقم التسلسل:</label>
+                            <input type="number" class="form-control w-auto me-3" asp-for="Serial" placeholder="رقم التسلسل" id="serial" required>
+                        </div>
+                        <div class="mb-3" style="display:flex; flex-direction:row">
+                            <label for="date" class="form-label">التاريخ:</label>
+                            <input type="date" class="form-control w-auto me-3" asp-for="CreatedAt">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered table-striped w-100" style="table-layout: fixed;">
+                        <thead class="table-header">
+                            <tr>
+                                <th rowspan="2">المتسلسل</th>
+                                <th colspan="4" style="text-align:center">المادة</th>
+                                <th rowspan="2">الكمية المستلمة </th>
+                                <th rowspan="2"> رقم بطاقة المواد</th>
+                                <th rowspan="2">ملاحظات</th>
+                            </tr>
+                            <tr>
+                                <th>رمزها</th>
+                                <th>اسمها</th>
+                                <th>أوصافها</th>
+                                <th>وحدتها</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < 12; i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsReceived[i].SerialNumber"></input></td>
+                                    <td><textarea class="form-control auto-expand text-center name-field" asp-for="@Model.ItemsReceived[i].Name"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsReceived[i].Description"></textarea></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsReceived[i].Unit"></textarea></td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsReceived[i].QuantityRecieved"></input></td>
+                                    <td><input type="number" class="form-control auto-expand text-center" asp-for="@Model.ItemsReceived[i].ItemCardNumber"></input></td>
+                                    <td><textarea class="form-control auto-expand text-center" asp-for="@Model.ItemsReceived[i].Notes"></textarea></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <style>
+                    .table-header th {
+                        background-color: #add8e6; /* Light blue background */
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    .table tbody td, .table tbody textarea {
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    .auto-expand {
+                        width: 100%;
+                        min-height: 30px;
+                        resize: none;
+                        overflow: hidden;
+                        border: none;
+                        background-color: transparent;
+                        padding: 5px;
+                        box-sizing: border-box;
+                        height: auto;
+                        text-align: center; /* Center text inside textarea */
+                    }
+
+                    textarea {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 6px;
+                        overflow-wrap: break-word;
+                        word-wrap: break-word;
+                    }
+
+                    .auto-resize {
+                        height: auto;
+                        overflow-y: hidden; /* Prevent scrollbars */
+                        resize: none; /* Prevent manual resizing */
+                        box-sizing: border-box; /* Include padding in height calculation */
+                    }
+                        textarea:focus {
+                            outline: none;
+                            border: 1px solid #007bff;
+                        }
+
+                        textarea.auto-expand:focus {
+                            height: auto;
+                        }
+                </style>
+
+              
+                <style>
+                    .autocomplete - results div {
+                        cursor: pointer;
+                        padding: 5px;
+                    }
+
+                        .autocomplete - results div:hover {
+                            background - color: #f0f0f0;
+                        }
+                </style>
+
+
+
+
+                <div class="row mb-4" style="display:flex; flex-direction:row">
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="date" class="form-label">فقط كمية مقدارها </label>
+                        <input type="number" class="form-control w-auto me-3" asp-for="TotalAmount">
+                    </div>
+
+                    <div class="mb-3" style="display:flex; flex-direction:row">
+                        <label for="date" class="form-label">وقيمتها مبلغ  </label>
+                        <input type="number" class="form-control w-auto me-3" asp-for="TotalPrice">
+                    </div>
+                </div>
+
+                <div class="row mb-4" style="justify-content:space-between">
+                    <div class="col-sm-8 mb-4" style="display:flex; flex-direction:row">
+                        <label class="form-label col-sm-6">تم استلام المواد المبينة أعلاه وفقا للمواصفات المحددة رقم</label>
+                        <input type="number" class="form-control w-auto me-3">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-sm-2 mb-4" style="display:flex; flex-direction:row">
+                        <label for="purchaseApprovalDate" class="form-label">تاريخ </label>
+                        <input type="date" class="form-control h-75 w-auto me-3">
+                    </div>
+                    <div class="col-sm-4 mb-4" style="display:flex; flex-direction:row">
+                        <label for="purchaseApprovalDate" class="form-label me-2">ويجري استلامها في </label>
+                        <input type="text" class="form-control h-75 w-auto me-3" value="@ViewBag.store.StoreName">
+                    </div>
+
+                    <p class="form-label col-sm-6 mb-4">وتم تسجيلها في بطاقات المستودع المشار إليها </p>
+
+                </div>
+
+                <div class="row mb-4" style="display:flex; flex-direction:row">
+                    <div class="col">
+                        <label for="orderedFrom" class="form-label">المسلم:</label>
+                        <input type="text" class="form-control w-auto me-3">
+                    </div>
+                    <div class="col">
+                        <label for="accountant" class="form-label">أمين المستودع المستلم:</label>
+                        <input type="text" class="form-control w-auto me-3" value="@ViewBag.Store.Storekeeper">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">حفظ مذكرة الادخال</button>
+            </form>
+        </div>
+    </div>
+    <div id="alertContainer" data-message="@TempData["AlertMessage"]"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the message in the data attribute
+            const message = document.getElementById("alertContainer").getAttribute("data-message");
+            if (message) {
+                alert(message);  // Ensures UTF-8 encoding
+            }
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        document.querySelectorAll('textarea.auto-expand').forEach(function (textarea) {
+            textarea.addEventListener('input', function () {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        });
+    </script>
+
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#folder, #serial').on('input', function () {
+                let folder = $('#folder').val();
+                let serial = $('#serial').val();
+
+                if (folder && serial) {
+                    $.ajax({
+                        url: '@Url.Action("CheckDuplicateReceipt", "Home")',
+                        type: 'GET',
+                        data: { folder: folder, serial: serial },
+                        success: function (response) {
+                            if (response.isDuplicate) {
+                                alert("هذا الرقم التسلسلي موجود بالفعل في قاعدة البيانات.");
+                                $('#folder, #serial').val(''); // Optionally clear the input fields
+                            }
+                        },
+                        error: function () {
+                            alert("حدث خطأ أثناء التحقق.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script src="~/Assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.name-field').on('input', function () {
+                let inputField = $(this);
+                let searchTerm = inputField.val();
+                let storeId = @ViewBag.store.Id;
+                console.log("id = ", storeId)
+                $('.autocomplete-results').remove();
+
+                if (searchTerm.length >= 2) { // Trigger search after 2 characters
+                    $.ajax({
+                        url: '@Url.Action("SearchItemsInStore", "Home")', // Adjust the controller name
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { term: searchTerm, StoreId: storeId },
+                        success: function (data) {
+                            // Remove any existing dropdown if search term is empty
+                            $('.autocomplete-results').remove();
+                            if (data.length === 0) {
+                                return; // No results, so exit
+                            }
+
+                            console.log(data);
+                            let offset = inputField.offset();
+                            let dropdown = $('<div class="autocomplete-results"></div>').css({
+                                position: 'absolute',
+                                top: offset.top + inputField.outerHeight(),
+                                left: offset.left,
+                                border: '1px solid #ccc',
+                                backgroundColor: '#fff',
+                                zIndex: 1000,
+                                width: inputField.outerWidth()
+                            }).appendTo('body'); // Append to body to avoid overlap issues
+
+                            // Clear previous results
+                            dropdown.empty();
+                            $.each(data, function (index, item) {
+                                console.log("Item:", item); // Debug log
+                                $('<div></div>')
+                                    .text(item.name) // Ensure you use the correct case (lowercase `name`)
+                                    .css('padding', '5px')
+                                    .on('click', function () {
+                                        // Fill in data when an item is clicked
+                                        let row = inputField.closest('tr');
+                                        inputField.val(item.name); // Set the Name field
+                                        // Use attribute selectors based on your input field structure
+                                        row.find('input[name$=".SerialNumber"]').val(item.serialNumber);
+                                        row.find('textarea[name$=".Description"]').val(item.description);
+                                        row.find('textarea[name$=".Unit"]').val(item.unit);
+
+                                        row.find('textarea[name$=".Name"]')
+                                            .addClass('auto-resize')       // Add the auto-resize class for styling
+                                            .each(function () {
+                                                // Adjust the input height based on the content
+                                                this.style.height = 'auto'; // Reset to auto to allow shrinking/growing
+                                                this.style.height = (this.scrollHeight) + 'px'; // Adjust to fit content height
+                                            });
+                                        dropdown.remove(); // Remove dropdown after selection
+                                    })
+                                    .appendTo(dropdown);
+                            });
+                            $(document).on('click', function (e) {
+                                if (!$(e.target).closest('.name-field, .autocomplete-results').length) {
+                                    dropdown.remove();
+                                }
+                            });
+                        },
+                        error: function () {
+                            alert("Error occurred while searching for items.");
+                        }
+                    });
+
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>
+

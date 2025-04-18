@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalStores", "HospitalStores\HospitalStores.csproj", "{288C733C-4333-4EF7-98B3-DFFC4CB4F4A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store_Bl", "Store_Bl\Store_Bl.csproj", "{7A52D948-8666-430E-BC53-F1ED78F7ECBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{288C733C-4333-4EF7-98B3-DFFC4CB4F4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288C733C-4333-4EF7-98B3-DFFC4CB4F4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288C733C-4333-4EF7-98B3-DFFC4CB4F4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288C733C-4333-4EF7-98B3-DFFC4CB4F4A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A52D948-8666-430E-BC53-F1ED78F7ECBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A52D948-8666-430E-BC53-F1ED78F7ECBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A52D948-8666-430E-BC53-F1ED78F7ECBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A52D948-8666-430E-BC53-F1ED78F7ECBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {590F8CE9-CFD8-4A8B-B9AF-601087701184}
+	EndGlobalSection
+EndGlobal

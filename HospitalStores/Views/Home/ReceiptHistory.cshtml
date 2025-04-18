@@ -1,0 +1,90 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var ReceiptHistory = ViewBag.ReceiptForm as List<Store_Bl.Models.ReceiptForm>;
+}
+
+@* Add Filter Buttons *@
+<div class="mb-4 text-center">
+    <button class="btn btn-primary mx-2" id="filterAll">عرض الكل</button>
+    <button class="btn btn-success mx-2" id="filterReceived">استلام فقط</button>
+    <button class="btn btn-warning mx-2" id="filterPending">انتظار فقط</button>
+</div>
+
+@* Check if ReceiptHistory is not null and contains items *@
+@if (ReceiptHistory != null && ReceiptHistory.Any())
+{
+    int i = 1;
+    @foreach (var item in ReceiptHistory)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>وردت من: @item.SupplierName</h4>
+                <h5>رقم الطلب: @item.Folder - @item.Serial</h5>
+                <p class="text-muted">تاريخ الطلب: @item.CreatedAt.ToString("dd/MM/yyyy")</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped w-100" style="table-layout: fixed;">
+                        <thead class="table-light">
+                            <tr>
+                                <th rowspan="2">المتسلسل</th>
+                                <th colspan="4" class="text-center">المادة</th>
+                                <th rowspan="2">الكمية المستلمة</th>
+                                <th rowspan="2">السعر</th>
+                                <th rowspan="2">رقم بطاقة المواد</th>
+                                <th rowspan="2">ملاحظات</th>
+                            </tr>
+                            <tr>
+                                <th>رمزها</th>
+                                <th>اسمها</th>
+                                <th>أوصافها</th>
+                                <th>وحدتها</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var itm in item.ItemsReceived)
+                            {
+                                <tr>
+                                    <td>@(i++)</td>
+                                    <td>@itm.SerialNumber</td>
+                                    <td>@itm.Name</td>
+                                    <td>@itm.Description</td>
+                                    <td>@itm.Unit</td>
+                                    <td>@itm.QuantityRecieved</td>
+                                    <td>@itm.Price</td>
+                                    <td>@itm.ItemCardNumber</td>
+                                    <td>@itm.Notes</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-warning text-center">
+        <h4>لا يوجد مذكرات استلام</h4>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // JavaScript to handle filtering (just as a simple example, you can extend it)
+        document.getElementById("filterAll").addEventListener("click", function() {
+            // Logic to show all records
+        });
+
+        document.getElementById("filterReceived").addEventListener("click", function() {
+            // Logic to filter only received items
+        });
+
+        document.getElementById("filterPending").addEventListener("click", function() {
+            // Logic to filter pending items
+        });
+    </script>
+}

@@ -1,0 +1,10 @@
+﻿/* rtl.css */
+body {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Cairo', sans-serif;
+}
+
+.col-xl-6, .col-sm-12 {
+    float: right;
+}
