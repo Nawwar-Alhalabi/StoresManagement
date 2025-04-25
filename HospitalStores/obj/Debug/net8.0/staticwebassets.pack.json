@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "C:\\Users\\Nawoar\\StudioProjects\\StoresManagement\\HospitalStores\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\HospitalStores.bundle.scp.css",
-      "PackagePath": "staticwebassets\\HospitalStores.bundle.scp.css"
+      "PackagePath": "staticwebassets\\HospitalStores.hspdusl5lg.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\Nawoar\\StudioProjects\\StoresManagement\\HospitalStores\\wwwroot\\Assets\\FontAwesome\\css\\all.css",
@@ -799,6 +799,10 @@
     {
       "Id": "C:\\Users\\Nawoar\\StudioProjects\\StoresManagement\\HospitalStores\\wwwroot\\scss\\bootstrap\\scss\\vendor\\_rfs.scss",
       "PackagePath": "staticwebassets\\scss\\bootstrap\\scss\\vendor\\_rfs.scss"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.HospitalStores.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.HospitalStores.Microsoft.AspNetCore.StaticWebAssets.props",

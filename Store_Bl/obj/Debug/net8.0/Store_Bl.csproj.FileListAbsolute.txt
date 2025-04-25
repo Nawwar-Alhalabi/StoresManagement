@@ -12,3 +12,4 @@ C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\refint
 C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.pdb
 C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.genruntimeconfig.cache
 C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\ref\Store_Bl.dll
+C:\Users\Nawoar\StudioProjects\StoresManagement\Store_Bl\obj\Debug\net8.0\Store_Bl.sourcelink.json
